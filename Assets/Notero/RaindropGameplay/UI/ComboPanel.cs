@@ -1,5 +1,4 @@
-﻿using Notero.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Notero.RaindropGameplay.UI
@@ -8,12 +7,14 @@ namespace Notero.RaindropGameplay.UI
     {
         public Image healthbar;
         public Image[] healthPoints;
+        public Image BG; // Reference ของพื้นหลังเดิม
+        public Image FadeBG; // Reference ของพื้นหลังที่ต้องการเปลี่ยน
 
         float health;
         float maxHealth = 110000;
         float lerpSpeed;
 
-        void Start ()
+        void Start()
         {
             health = 0;
         }
@@ -27,10 +28,12 @@ namespace Notero.RaindropGameplay.UI
                 healthPoints[i].enabled = !DisplayHealthPoint(health, i);
             }
         }
+
         bool DisplayHealthPoint(float _health, int pointNumber)
         {
             return ((pointNumber * 3900) >= _health);
         }
+
         public void Damage(float damagePoints)
         {
             if (health > 0)
@@ -45,6 +48,12 @@ namespace Notero.RaindropGameplay.UI
             lerpSpeed = 1f * Time.deltaTime;
 
             HealthBarFiller();
+
+            if (maxHealth >= 110000)
+            {
+                BG.gameObject.SetActive(false); // ปิดการใช้งาน BG
+                FadeBG.gameObject.SetActive(true); // เปิดการใช้งาน FadeBG
+            }
         }
     }
 }
